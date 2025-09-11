@@ -15,24 +15,24 @@ def clear_input_queue():
         
 def ascii_art(filename, x, y, ansi):
     # Construct the full file path using path_manager
-    file_path = os.path.join('assets')
+    file_path = os.path.join('assets', filename)
 
     try:
-        # Tenta ler o arquivo .txt como UTF-8
         with open(file_path, 'r', encoding="utf-8") as file:
             content = file.read()
             blt.printf(x, y, content)
-            if ansi == True:
+            if ansi:
                 blt.printf(x, y, " ")
     except UnicodeDecodeError:
         try:
-            # se nao for UTF-8 tenta com ANSI
             with open(file_path, 'r', encoding="ansi") as file:
                 content = file.read()
                 blt.printf(x, y, content)
                 blt.printf(x, y, " ")
         except UnicodeDecodeError:
-            print("Error: Unable to decode the file. Make sure it is saved in either UTF-8 or ANSI encoding.")
+            print(f"Error: Unable to decode the file {file_path}. Make sure it is saved in UTF-8 or ANSI.")
+    except FileNotFoundError:
+        print(f"Error: File not found: {file_path}")
             
 def transition(delay=100):
     blt.bkcolor('white') 
